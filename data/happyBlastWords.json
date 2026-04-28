@@ -1,0 +1,38 @@
+{
+  "positive": [
+    "Courage",
+    "Confiance",
+    "Joie",
+    "Force",
+    "Calme",
+    "Focus",
+    "Espoir",
+    "Clarte",
+    "Progression",
+    "Gratitude",
+    "Serenite",
+    "Victoire",
+    "Lumiere",
+    "Reveil",
+    "Puissance",
+    "Paix"
+  ],
+  "negative": [
+    "Doute",
+    "Peur",
+    "Stress",
+    "Colere",
+    "Fatigue",
+    "Blocage",
+    "Confusion",
+    "Panique",
+    "Tristesse",
+    "Echec",
+    "Pression",
+    "Chaos",
+    "Friction",
+    "Vide",
+    "Bruit",
+    "Tension"
+  ]
+}
