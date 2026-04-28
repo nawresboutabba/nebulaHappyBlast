@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { View } from 'react-native';
 import HappyBlast from '@/components/HappyBlast';
 import { NebulaBackground } from '@/components/NebulaBackground';
+import { useState } from 'react';
+import { View } from 'react-native';
 
 export default function HomeScreen() {
   const [showGame, setShowGame] = useState(true);

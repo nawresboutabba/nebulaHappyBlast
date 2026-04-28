@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { NebulaBackground } from './NebulaBackground';
+import { RocketFire } from './RocketFire';
 
 const rocketImg = require('../assets/rocket.png');
 const wordsData = require('../data/happyBlastWords.json') as {
@@ -484,10 +485,14 @@ const HappyBlast: React.FC<HappyBlastProps> = ({ onClose }) => {
             style={[
               styles.rocketWrap,
               {
-                transform: [{ translateX: rocketPos.x }, { translateY: rocketPos.y }],
+                transform: [
+                  { translateX: rocketPos.x },
+                  { translateY: rocketPos.y },
+                ],
               },
             ]}
           >
+            {/* Outer glow flame */}
             <Animated.View
               pointerEvents="none"
               style={[
@@ -498,6 +503,12 @@ const HappyBlast: React.FC<HappyBlastProps> = ({ onClose }) => {
                     outputRange: [0.45, 0.95],
                   }),
                   transform: [
+                    {
+                      translateY: rocketFlame.interpolate({
+                        inputRange: [0.58, 1],
+                        outputRange: [2, -2], // subtle vibration
+                      }),
+                    },
                     {
                       scaleY: rocketFlame.interpolate({
                         inputRange: [0.58, 1],
@@ -514,27 +525,21 @@ const HappyBlast: React.FC<HappyBlastProps> = ({ onClose }) => {
                 },
               ]}
             />
-            <Animated.View
-              pointerEvents="none"
-              style={[
-                styles.rocketFlameInner,
-                {
-                  opacity: rocketFlame.interpolate({
-                    inputRange: [0.58, 1],
-                    outputRange: [0.55, 1],
-                  }),
-                  transform: [
-                    {
-                      scaleY: rocketFlame.interpolate({
-                        inputRange: [0.58, 1],
-                        outputRange: [0.92, 1.45],
-                      }),
-                    },
-                  ],
-                },
-              ]}
+
+            {/* 🔥 MAIN FIRE (FIXED POSITION) */}
+            <View style={styles.rocketFireContainer}>
+              <RocketFire
+                width={ROCKET_SIZE * 0.18}
+                height={ROCKET_SIZE * 0.28}
+              />
+            </View>
+
+            {/* Rocket image (on top) */}
+            <Image
+              source={rocketImg}
+              style={styles.rocket}
+              resizeMode="contain"
             />
-            <Image source={rocketImg} style={styles.rocket} resizeMode="contain" />
           </Animated.View>
 
           <View style={styles.effectsLayer} pointerEvents="none">
@@ -773,8 +778,8 @@ const styles = StyleSheet.create({
   },
   rocketFlameOuter: {
     position: 'absolute',
-    left: ROCKET_SIZE * 0.36,
-    top: ROCKET_SIZE * 0.74,
+    left: ROCKET_SIZE * 0.5 - (ROCKET_SIZE * 0.28) / 2,
+    top: ROCKET_SIZE * 0.78,
     width: ROCKET_SIZE * 0.28,
     height: ROCKET_SIZE * 0.42,
     borderRadius: 999,
@@ -782,18 +787,6 @@ const styles = StyleSheet.create({
     shadowColor: '#FF8AE2',
     shadowOpacity: 0.82,
     shadowRadius: 14,
-  },
-  rocketFlameInner: {
-    position: 'absolute',
-    left: ROCKET_SIZE * 0.41,
-    top: ROCKET_SIZE * 0.78,
-    width: ROCKET_SIZE * 0.18,
-    height: ROCKET_SIZE * 0.28,
-    borderRadius: 999,
-    backgroundColor: 'rgba(255, 233, 168, 0.98)',
-    shadowColor: '#FFD966',
-    shadowOpacity: 0.9,
-    shadowRadius: 10,
   },
   rocket: {
     width: ROCKET_SIZE,
@@ -950,6 +943,16 @@ const styles = StyleSheet.create({
     color: '#F8F4FF',
     fontWeight: '800',
     fontSize: 14,
+  },
+  rocketFireContainer: {
+    position: 'absolute',
+    left: ROCKET_SIZE * 0.5 - (ROCKET_SIZE * 0.18) / 2, // perfectly centered
+    top: ROCKET_SIZE * 0.82, // slightly below rocket
+    width: ROCKET_SIZE * 0.18,
+    height: ROCKET_SIZE * 0.3,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    zIndex: 1, // behind rocket
   },
 });
 
